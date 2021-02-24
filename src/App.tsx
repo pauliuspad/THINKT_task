@@ -1,24 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
 
 function App() {
+  const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+  const getApiData = async () =>{
+    const url = 'https://vqjqjauwa1.execute-api.us-east-2.amazonaws.com/default/thinktDigitalLamdaApp'
+
+    const response = await fetch(url);
+    const data = await response.json();    
+    setData(data);
+    setLoading(false);
+  }
+
+  getApiData();
+  },[]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h2>THINKT Digital task app</h2>
+      <h4>Message from API:</h4>
+      {loading ? <div>...loading</div> : <div>{data}</div>}
     </div>
   );
 }
